@@ -1,3 +1,8 @@
 from django.db import models
 
-# Create your models here.
+
+class Problem(models.Model):
+    issue = models.TextField()
+    solution = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
