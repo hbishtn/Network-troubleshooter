@@ -1,7 +1,6 @@
 import google.generativeai as genai
 
-genai.configure(api_key="AIzaSyBfyBFOz4Hpine_SU3wRlR2GHEIljapsBc")
-
+genai.configure(api_key="key not available for public display")
 model = genai.GenerativeModel("gemini-2.5-flash")
 
 def analyze_network_problem(problem, ping, dns, speed):
