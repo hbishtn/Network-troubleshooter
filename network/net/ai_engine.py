@@ -1,38 +1,77 @@
-import google.generativeai as genai
+from groq import Groq
+from dotenv import load_dotenv
+import os
 
-genai.configure(api_key="AIzaSyBfyBFOz4Hpine_SU3wRlR2GHEIljapsBc")
+load_dotenv()
 
-model = genai.GenerativeModel("gemini-2.5-flash")
+client = Groq(
+    api_key=os.getenv("GROQ_API_KEY")
+)
 
-def analyze_network_problem(problem, ping, dns, speed):
+
+def analyze_network_problem(
+
+    problem,
+
+    issue,
+
+    rating,
+
+    recommendation,
+
+    fix
+):
 
     prompt = f"""
-    You are an expert network engineer.
-    Explain in simple English.
-    Keep answer short.
-    Only important points.
-    No long report format.
-    Also make bold the important points.
 
-     USER PROBLEM:
-{problem}
+    You are a professional network engineer.
 
-    SYSTEM TEST RESULTS:
-    Ping Result:
-{ping}
+    USER QUESTION:
+    {problem}
 
-    DNS Result:
-{dns}
+    DETECTED ISSUE:
+    {issue}
 
-    Speed Test:
-{speed}
+    NETWORK RATING:
+    {rating}/10
 
-    Now give:
-    1. Root cause
-    2. Exact fix
-    3. Step by step solution
-    4. Beginner explanation
+    RECOMMENDATION:
+    {recommendation}
+
+    AUTO FIX:
+    {fix}
+
+    Give short structured answer,Give clean professional answer.
+
+    Use:
+    - clear headings
+    - bullet points
+    - short lines
+    - proper spacing
+
+    Do NOT overuse bold text.
+    Only important headings should look highlighted.
     """
 
-    response = model.generate_content(prompt)
-    return response.text
+    try:
+
+        chat = client.chat.completions.create(
+
+            model="llama-3.1-8b-instant",
+
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ]
+        )
+
+        return (
+            chat.choices[0]
+            .message.content
+        )
+
+    except Exception as e:
+
+        return f"AI Error: {str(e)}"
