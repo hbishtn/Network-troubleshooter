@@ -2,16 +2,11 @@ from groq import Groq
 from dotenv import load_dotenv
 import os
 
-
 load_dotenv()
 
 client = Groq(
     api_key=os.getenv("GROQ_API_KEY")
 )
-
-genai.configure(api_key="key not available for public display")
-model = genai.GenerativeModel("gemini-2.5-flash")
-
 
 def analyze_network_problem(
 
@@ -45,18 +40,16 @@ def analyze_network_problem(
     AUTO FIX:
     {fix}
 
-    Give short structured answer,Give clean professional answer.
+    Give clean professional answer.
 
     Use:
-    - clear headings
+    - proper headings
     - bullet points
-    - short lines
-    - proper spacing
+    - short explanations
+    - readable spacing
 
-    Do NOT overuse bold text.
-    Only important headings should look highlighted.
+    Keep answer smart and structured.
     """
-
 
     try:
 
@@ -80,6 +73,3 @@ def analyze_network_problem(
     except Exception as e:
 
         return f"AI Error: {str(e)}"
-    response = model.generate_content(prompt)
-    return response.text
-
